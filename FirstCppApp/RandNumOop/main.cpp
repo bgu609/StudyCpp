@@ -15,22 +15,31 @@ public:
 			return TRUE;
 		}
 		else if (input > num) {
-			printf("입력한 숫자가 더 작습니다.\n");
+			printf("입력한 숫자보다 더 작습니다.\n");
 		}
 		else {
+			printf("입력한 숫자보다 더 큽니다.\n");
 		}
+		return FALSE;
 	}
 };
 
 class Ask
 {
 private:
-	int num;
+	int input;
 
 public:
-	void Promt() { }
-	BOOL AskNumber() { }
-	
+	void Prompt() { printf("\n제가 만든 숫자를 맞춰 보세요.\n"); }
+	BOOL AskUser() {
+		printf("숫자를 입력하세요(끝낼 때는 999) : ");
+		scanf("%d", &input);
+		if (input == 999) {
+			return TRUE;
+		}
+		return FALSE;
+	}
+	int GetInput() { return input; }
 };
 
 int main()
@@ -38,11 +47,16 @@ int main()
 	RandNum R;
 	Ask A;
 
-	while (1) {
+	for (;;) {
 		R.Generate();
-		A.Promt();
-		while (1) {
-			exit(EXIT_SUCCESS);
+		A.Prompt();
+		for (;;) {
+			if (A.AskUser()) {
+				exit(0);
+			}
+			if (R.Compare(A.GetInput())) {
+				break;
+			}
 		}
 	}
 }
